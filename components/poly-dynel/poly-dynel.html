@@ -1,0 +1,30 @@
+<!--
+Dynamically load a component and instantiate it as an element
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<dom-module id='poly-dynel'>
+  <template>
+  </template>
+  <script>
+    Polymer({
+      is: 'poly-dynel',
+      properties: {
+        path: String,
+        element: String
+      },
+      observers: [
+      'load(path, element)'
+      ],
+      load: function(path, element) {
+        if (path != null && element != null) {
+        this.importHref(this.path, function(e) {
+          var instance = document.createElement(this.element);
+          Polymer.dom(this.root).appendChild(instance);
+        });
+        }
+      },
+      ready: function() {
+      }
+    });
+  </script>
+</dom-module>

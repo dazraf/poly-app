@@ -10,6 +10,7 @@
 <link rel='import' href='../../bower_components/iron-selector/iron-selector.html'>
 <link rel='import' href='../demo-1/demo-1.html'>
 <link rel='import' href='../demo-2/demo-2.html'>
+<link rel="import" href="../poly-dynel/poly-dynel.html">
 
 
 <dom-module id='poly-app'>
@@ -18,12 +19,9 @@
       body {
         margin: 0px;
       }
-      div[title] {
-        font-size: 2em;
-      }
     </style>
 
-    <paper-drawer-panel id="drawer" force-narrow>
+    <paper-drawer-panel force-narrow>
 
       <div drawer>
         <paper-toolbar><span class="title">Demos</span></paper-toolbar>
@@ -43,16 +41,16 @@
         </paper-toolbar>
         <div>
           <neon-animated-pages selected="{{selected.id}}" attr-for-selected="key" animateInitialSelection=true entry-animation="fade-in-animation" exit-animation="fade-out-animation">
-            <neon-animatable key=""></neon-animatable>
-            <neon-animatable key="demo-1"><demo-1></demo-1></neon-animatable>
-            <neon-animatable key="demo-2"><demo-2></demo-2></neon-animatable>
+            <neon-animatable key=""></neon-animatable> <!-- home page -->
+            <template is='dom-repeat' items='{{data}}'> <!-- dynamically load each demo element -->
+              <neon-animatable key$="{{item.id}}">
+                <poly-dynel path$="{{item.import}}" element$="{{item.element}}"></poly-dynel>
+              </neon-animatable>
+            </template>            
           </neon-animated-pages>
         </div>
       </div>
     </paper-drawer-panel>
-
-    <div>
-    </div>
 
     <app-location route='{{route}}'></app-location>
     <app-route route="{{route}}" pattern="/:page" data="{{pageRoute}}"></app-route>
@@ -87,7 +85,6 @@
       },
 
       retrieveData: function() {
-        console.log('getting data');
         this.data = [{
           id: 'demo-1',
           description: 'Demo 1',
@@ -100,24 +97,24 @@
           import: 'components/demo-2/demo-2.html',
           element: 'demo-2'
         }];
+
+        // build an index to make lookups O(1)
         this.index = {};
 
         for (var i in this.data) {
           var page = this.data[i];
           this.index[page.id] = page;
         }
-        console.log(JSON.stringify(this.data));
         return this.data;
       },
 
       selectedPage: function(pageRoute) {
-        console.log(pageRoute.page);
         if (pageRoute != null && pageRoute.page != null && this.index.hasOwnProperty(pageRoute.page)) {
           return this.index[pageRoute.page];
         } else {
           return {
             id: '',
-            description: 'Home'
+            description: ''
           };
         }
       },
