@@ -10,17 +10,11 @@
 <link rel='import' href='../../bower_components/iron-selector/iron-selector.html'>
 <link rel='import' href='../demo-1/demo-1.html'>
 <link rel='import' href='../demo-2/demo-2.html'>
-<link rel="import" href="../poly-dynel/poly-dynel.html">
+<link rel="import" href="../poly-dynamic/poly-dynamic.html">
 
 
 <dom-module id='poly-app'>
   <template>
-    <style is="custom-style">
-      body {
-        margin: 0px;
-      }
-    </style>
-
     <paper-drawer-panel force-narrow>
 
       <div drawer>
@@ -39,12 +33,13 @@
           <span class='title'>{{selected.description}}</span>
           <paper-icon-button icon="refresh" on-tap="refresh"></paper-icon-button>
         </paper-toolbar>
+
         <div>
           <neon-animated-pages selected="{{selected.id}}" attr-for-selected="key" animateInitialSelection=true entry-animation="fade-in-animation" exit-animation="fade-out-animation">
             <neon-animatable key=""></neon-animatable> <!-- home page -->
             <template is='dom-repeat' items='{{data}}'> <!-- dynamically load each demo element -->
               <neon-animatable key$="{{item.id}}">
-                <poly-dynel path$="{{item.import}}" element$="{{item.element}}"></poly-dynel>
+                <poly-dynamic path$="{{item.import}}" element$="{{item.element}}"></poly-dynamic>
               </neon-animatable>
             </template>            
           </neon-animated-pages>
