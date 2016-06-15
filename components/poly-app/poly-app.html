@@ -68,31 +68,21 @@
 
         data: {
           type: Array,
-          value: function() {
-            return this.retrieveData();
-          }
+          observer: '_onNewData'
         },
 
         selected: {
           type: Object,
           computed: 'selectedPage(pageRoute)'
-        }
+        },
       },
-
-      retrieveData: function() {
-        this.data = [{
-          id: 'demo-1',
-          description: 'Demo 1',
-          import: 'components/demo-1/demo-1.html',
-          element: 'demo-1'
-        }, 
-        {
-          id: 'demo-2',
-          description: 'Demo 2',
-          import: 'components/demo-2/demo-2.html',
-          element: 'demo-2'
-        }];
-
+      created: function() {
+        this.index = {}
+      },
+      _onNewData: function(data) {
+        console.log("new data");
+        console.log(data);
+        this.data = data;
         // build an index to make lookups O(1)
         this.index = {};
 
@@ -100,9 +90,8 @@
           var page = this.data[i];
           this.index[page.id] = page;
         }
-        return this.data;
       },
-
+      
       selectedPage: function(pageRoute) {
         if (pageRoute != null && pageRoute.page != null && this.index.hasOwnProperty(pageRoute.page)) {
           return this.index[pageRoute.page];

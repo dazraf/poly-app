@@ -7,6 +7,8 @@
   <title>Demos</title>
   <script src='bower_components/webcomponentsjs/webcomponents.min.js'></script>
 
+  <link rel='import' href='bower_components/iron-ajax/iron-ajax.html'>
+
   <link rel='import' href='components/poly-app/poly-app.html'>
 
   <style type='text/css'>
@@ -20,7 +22,22 @@
 </head>
 
 <body unresolved>
-  <poly-app></poly-app>
+  <template id='the-app' is='dom-bind'>
+    <iron-ajax
+       auto
+       url="/demos.json"
+       handle-as="json"
+       last-response="{{ajaxResponse}}"></iron-ajax>
+    
+    <poly-app data="[[ajaxResponse]]"></poly-app>
+
+    <script>
+      Polymer({
+        is: 'the-app',
+        properties: { ajaxResponse : String}
+      })
+    </script>
+  </template>
 </body>
 
 </html>

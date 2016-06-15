@@ -1,0 +1,14 @@
+[
+  {
+    "id": "demo-1",
+    "description": "Demo 1",
+    "import": "components/demo-1/demo-1.html",
+    "element": "demo-1"
+  }, 
+  {
+    "id": "demo-2",
+    "description": "Demo 2",
+    "import": "components/demo-2/demo-2.html",
+    "element": "demo-2"
+  }
+]
